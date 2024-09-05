@@ -54,17 +54,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Color_Edge: 0.055
+    - _Color_Edge: 0.063
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Scale: 10
     - _Scale_1: 8
     - _Scale_2: 10
     - _Speed: 10
-    - _Speed_1: 6
-    - _Speed_2: 5
+    - _Speed_1: 120
+    - _Speed_2: -100
     m_Colors:
     - _Color_1: {r: 0.3686274, g: 0.25098035, b: 0.41176465, a: 1}
     - _Color_2: {r: 0.07058821, g: 0.039215688, b: 0.09803919, a: 0}
+    - _Size: {r: 0.15, g: 1, b: 0, a: 0}
     - _Vector2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

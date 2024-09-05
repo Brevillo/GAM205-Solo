@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Clouds
+  m_Name: Cloud
   m_Shader: {fileID: -6465566751694194690, guid: 10d6e1f1843ab4576855c110eb4da2d4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -43,11 +43,14 @@ Material:
     m_Floats:
     - _Bend_Strength: 0.99
     - _Brightness: 1
-    - _Cloud_Step: 0.27
+    - _Cloud_Step: 0.15
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 0.98
-    - _Speed: 0.2
+    - _Scale: 0.07
+    - _Speed: 2
+    - _Voronoi_Size: 0.01
+    - _Voronoi_Speed: 0.5
+    - _Voronoi_Strength: 0.03
     m_Colors:
     - _Bend_Center: {r: 0.5, g: 0, b: 0, a: 0}
     - _Color: {r: 0.7647059, g: 0.08627448, b: 0.10980389, a: 1}

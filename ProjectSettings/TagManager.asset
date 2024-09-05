@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Render Texture
   - Ground
-  - 
+  - Background
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Wind
+    uniqueID: 1046087683
     locked: 0
