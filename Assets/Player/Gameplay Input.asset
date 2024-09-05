@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb90fb360c1ca4790af1b83887b91ace, type: 3}
+  m_Name: Gameplay Input
+  m_EditorClassIdentifier: 
+  gameServiceManager: {fileID: 11400000, guid: 284397ce00c324d4cbf8c4699ef11911, type: 2}
+  inputActions: {fileID: -944628639613478452, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  MoveRight:
+    actionReference: {fileID: -2571914170599673223, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  MoveLeft:
+    actionReference: {fileID: -2522792664863208222, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  Jump:
+    actionReference: {fileID: 6214763775786877802, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  Slam:
+    actionReference: {fileID: -7991745985793627376, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  Attack:
+    actionReference: {fileID: 3097886460329038555, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
