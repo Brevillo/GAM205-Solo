@@ -13,7 +13,9 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector2 targetPosition = new(Mathf.Max(position.x, target.position.x), position.y);
+        Vector2 targetPosition =
+            new(target.position.x, position.y);
+            //new(Mathf.Max(position.x, target.position.x), position.y);
 
         position = Vector2.SmoothDamp(position, targetPosition, ref dampVelocity, dampSpeed);
 

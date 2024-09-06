@@ -55,14 +55,14 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     - _NoiseScale: 50
-    - _Noise_Scale_1: 50
-    - _Noise_Scale_2: 30
+    - _Noise_Scale_1: 200
+    - _Noise_Scale_2: 100
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Range1: 0
     - _Range2: 0.53
-    - _Range_1: 0.33
-    - _Range_2: 0.53
+    - _Range_1: 0.5
+    - _Range_2: 0.7
     m_Colors:
     - _Color: {r: 0.2050787, g: 0.011612245, b: 0.015208514, a: 1}
     - _Color_1: {r: 0.5457246, g: 0.008023192, b: 0.011612245, a: 1}
@@ -70,8 +70,8 @@ Material:
     - _Color_3: {r: 0.54509807, g: 0.007843138, b: 0.011764706, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Scroll_Speed_1: {r: 0.001, g: 0, b: 0, a: 0}
-    - _Scroll_Speed_2: {r: -0.002, g: -0.001, b: 0, a: 0}
+    - _Scroll_Speed_1: {r: 0.0002, g: 0, b: 0, a: 0}
+    - _Scroll_Speed_2: {r: -0.0004, g: -0.0002, b: 0, a: 0}
     - _Scroll_speed: {r: 0.001, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3945370396780103728

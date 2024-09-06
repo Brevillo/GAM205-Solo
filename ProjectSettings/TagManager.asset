@@ -14,7 +14,7 @@ TagManager:
   - Render Texture
   - Ground
   - Background
-  - 
+  - Player
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Wind
     uniqueID: 1046087683
+    locked: 0
+  - name: Death Screen
+    uniqueID: 1564346363
     locked: 0

@@ -12,19 +12,31 @@ public class PlayerMovement : Player.Component
     [SerializeField] private float airAccel;
     [SerializeField] private float airDeccel;
     [SerializeField] private float airTurnAccel;
+    [SerializeField] private SoundEffect stepSound;
+    [SerializeField] private float stepSoundFreqeuncy;
+    [SerializeField] private BoxCaster2D wallRight;
+    [SerializeField] private BoxCaster2D wallLeft;
+    [SerializeField] private float groundedAngleRange;
 
     [Header("Jumping")]
     [SerializeField] private float jumpHeight;
-    [SerializeField] private float gravity;
+    [SerializeField] private float jumpGravity;
+    [SerializeField] private float fallGravity;
     [SerializeField] private BufferTimer jumpBuffer;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float maxFallSpeed;
     [SerializeField] private BoxCaster2D ground;
     [SerializeField] private BoxCaster2D ceiling;
 
-    private bool onGround, onCeiling;
-    private int moveDirection;
+    [Header("Slamming")]
+    [SerializeField] private float minSlamSpeed;
 
+    private bool onGround, onCeiling;
+    private int moveDirection, wallDirection;
+
+    private float stepSoundTimer;
+
+    [SerializeField]
     private StateMachine stateMachine;
     private Grounded grounded;
     private Falling falling;
@@ -38,8 +50,15 @@ public class PlayerMovement : Player.Component
 
     private void Update()
     {
-        onGround = ground.Touching;
-        onCeiling = ceiling.Touching;
+        onGround = ground.Touching && NormalDistance(ground.Normal, 90) < groundedAngleRange;
+        onCeiling = ceiling.Touching && NormalDistance(ceiling.Normal, -90) < groundedAngleRange;
+
+        if (ground.Touching) Debug.DrawRay(ground.Collisions[0].point, ground.Normal * 2, Color.yellow);
+
+        wallDirection = (wallRight.Touching ? 1 : 0) - (wallLeft.Touching ? 1 : 0);
+
+        static float NormalDistance(Vector2 normal, float targetAngle)
+            => Mathf.Abs(Mathf.DeltaAngle(Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg, targetAngle));
 
         moveDirection = (Input.MoveRight.Pressed ? 1 : 0) - (Input.MoveLeft.Pressed ? 1 : 0);
         jumpBuffer.Buffer(Input.Jump.Down);
@@ -62,7 +81,9 @@ public class PlayerMovement : Player.Component
 
             toJumping = () => jumpBuffer && onGround,
             toCoyoteJumping = () => jumpBuffer && stateMachine.previousState == grounded && stateMachine.stateDuration < coyoteTime,
-            endJumping = () => Rigidbody.velocity.y <= 0 || !Input.Jump.Pressed || onCeiling;
+            endJumping = () => Rigidbody.velocity.y <= 0 || !Input.Jump.Pressed || onCeiling,
+
+            toSlamming = () => Input.Slam.Down;
 
         stateMachine = new(grounded, new()
         {
@@ -81,6 +102,7 @@ public class PlayerMovement : Player.Component
                 {
                     new(grounded, toGrounded),
                     new(jumping, toCoyoteJumping),
+                    new(slamming, toSlamming),
                 }
             },
 
@@ -88,7 +110,8 @@ public class PlayerMovement : Player.Component
                 jumping,
                 new()
                 {
-                    new(falling, endJumping)
+                    new(falling, endJumping),
+                    new(slamming, toSlamming),
                 }
             },
 
@@ -96,7 +119,7 @@ public class PlayerMovement : Player.Component
                 slamming,
                 new()
                 {
-
+                    new(grounded, toGrounded),
                 }
             },
         });
@@ -136,7 +159,7 @@ public class PlayerMovement : Player.Component
 
         protected void Run()
         {
-            bool moving = context.moveDirection != 0;
+            bool moving = context.moveDirection != 0 && context.moveDirection != context.wallDirection;
             bool turning = context.moveDirection != Mathf.Sign(XVelocity);
 
             float accel = context.onGround
@@ -146,11 +169,26 @@ public class PlayerMovement : Player.Component
             float targetSpeed = Mathf.Abs(XVelocity) > context.runSpeed ? XVelocity : context.runSpeed;
 
             XVelocity = Mathf.MoveTowards(XVelocity, context.moveDirection * targetSpeed, accel * Time.deltaTime);
+
+            if (context.onGround && moving)
+            {
+                context.stepSoundTimer += Time.deltaTime;
+
+                if (context.stepSoundTimer > context.stepSoundFreqeuncy)
+                {
+                    context.stepSoundTimer = 0;
+                    context.stepSound.Play(context);
+                }
+            }
+            else
+            {
+                context.stepSoundTimer = Mathf.Infinity;
+            }
         }
 
-        protected void Fall()
+        protected void Fall(float gravity)
         {
-            YVelocity = Mathf.MoveTowards(YVelocity, -context.maxFallSpeed, context.gravity * Time.deltaTime);
+            YVelocity = Mathf.MoveTowards(YVelocity, -context.maxFallSpeed, gravity * Time.deltaTime);
         }
     }
 
@@ -173,7 +211,7 @@ public class PlayerMovement : Player.Component
         public override void Update()
         {
             Run();
-            Fall();
+            Fall(context.fallGravity);
 
             base.Update();
         }
@@ -188,20 +226,43 @@ public class PlayerMovement : Player.Component
             base.Enter();
 
             context.jumpBuffer.Reset();
-            YVelocity = Mathf.Sqrt(context.jumpHeight * context.gravity * 2f);
+            YVelocity = Mathf.Sqrt(context.jumpHeight * context.jumpGravity * 2f);
         }
 
         public override void Update()
         {
             Run();
-            Fall();
+            Fall(context.jumpGravity);
 
             base.Update();
+        }
+
+        public override void Exit()
+        {
+            YVelocity = 0;
+
+            base.Exit();
         }
     }
 
     private class Slamming : State
     {
         public Slamming(PlayerMovement context) : base(context) { }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            float slamSpeed = Mathf.Max(context.minSlamSpeed, Velocity.magnitude);
+
+            Velocity = new(0, -slamSpeed);
+        }
+
+        public override void Update()
+        {
+            Run();
+
+            base.Update();
+        }
     }
 }

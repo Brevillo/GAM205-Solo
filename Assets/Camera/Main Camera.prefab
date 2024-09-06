@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 1666995208057759445}
   - component: {fileID: 6032493810342616654}
   - component: {fileID: 8208352745615073581}
+  - component: {fileID: 3608992267985449768}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -225,6 +226,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 6402199001453952140}
   screenSize: {x: 84, y: 36}
+--- !u!114 &3608992267985449768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3514058656870017687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5475e697fb8624161ab36e1624c3804e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 6402199001453952140}
+  renderTexture: {fileID: 8400000, guid: a8137127d819f40c5bfbb5fc196410f9, type: 2}
+  renderCamera: {fileID: 3948270683402646086}
 --- !u!1 &3948270683402646086
 GameObject:
   m_ObjectHideFlags: 0
