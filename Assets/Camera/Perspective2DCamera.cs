@@ -7,6 +7,7 @@ public class Perspective2DCamera : MonoBehaviour
 {
     [SerializeField] private new Camera camera;
     [SerializeField] private Vector2 screenSize;
+    [SerializeField] private bool drawGizmos;
 
     private void Update()
     {
@@ -21,6 +22,8 @@ public class Perspective2DCamera : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!drawGizmos) return;
+
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y), screenSize);
     }

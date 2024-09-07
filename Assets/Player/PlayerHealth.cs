@@ -2,45 +2,125 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using OliverBeebe.UnityUtilities.Runtime;
+using UnityEngine.UI;
+using TMPro;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : Player.Component
 {
-    [SerializeField] private AnimationCurve deathAnimationCurve;
-    [SerializeField] private float deathAnimationDuration;
-    [SerializeField] private SpriteRenderer deathScreen;
+    [SerializeField] private LayerMask groundMask;
+
+    [SerializeField] private SmartCurve deathAnimation;
+    [SerializeField] private SmartCurve respawnAnimtion;
+    [SerializeField] private Image deathScreen;
+    [SerializeField] private float deathFillDelay;
+    [SerializeField] private float bodyDeathDelay;
+    [SerializeField] private SmartCurve deathTextAnimation;
+    [SerializeField] private float deathTextDelay;
+    [SerializeField] private TextMeshProUGUI deathText;
+    [SerializeField] private float startDeathTextSpacing;
+    [SerializeField] private float endDeathTextSpacing;
+    [SerializeField] private AudioSource deathAmbience;
+    [SerializeField] private float maxDeathAmbienceVolume;
+    [SerializeField] private float maxDeathAmbiencePitch;
+    [SerializeField] private ShakeProfile2D deathBodyShake;
+    [SerializeField] private SmartCurve deathBodyExpansion;
+    [SerializeField] private Transform visuals;
+    [SerializeField] private SoundEffect playerHurt;
 
     private static readonly int
         animationID = Shader.PropertyToID("_Animation"),
         centerID = Shader.PropertyToID("_Center");
 
-    private float deathAnimationPercent;
+    private Coroutine death;
+    private Vector2 ogSpawn;
 
-    private enum State { Alive, Dying, Dead }
-
-    private State state;
+    private EffectsManager2D effects;
 
     public void Die()
     {
-        if (state != State.Alive) return;
+        if (death != null) return;
 
-        state = State.Dying;
-        deathScreen.material.SetVector(centerID, transform.position);
+        death = StartCoroutine(Death());
     }
 
-    private void Update()
+    private void Start()
     {
-        switch (state)
+        ogSpawn = transform.position;
+        effects = new();
+    }
+
+    private IEnumerator Death()
+    {
+        playerHurt.Play(this);
+
+        Movement.enabled = false;
+        Rigidbody.velocity = Vector2.zero;
+
+        StartCoroutine(BodyShake());
+        IEnumerator BodyShake()
         {
-            case State.Alive:
-                break;
+            var bodyShake = effects.AddEffect(deathBodyShake.GetActiveEffect());
 
-            case State.Dying:
+            deathBodyExpansion.Start();
+            while (!bodyShake.Complete)
+            {
+                visuals.localScale = Vector3.one * (1 + deathBodyExpansion.Evaluate());
+                visuals.localPosition = effects.Update();
+                yield return null;
+            }
 
-                deathAnimationPercent += Time.deltaTime / deathAnimationDuration;
-
-                deathScreen.material.SetFloat(animationID, deathAnimationCurve.Evaluate(deathAnimationPercent));
-
-                break;
+            visuals.localPosition = Vector2.zero;
+            visuals.localScale = Vector3.one;
         }
+
+        yield return new WaitForSeconds(bodyDeathDelay);
+
+        StartCoroutine(Text());
+        IEnumerator Text()
+        {
+            yield return new WaitForSeconds(deathTextDelay);
+
+            deathTextAnimation.Start();
+
+            while (!deathTextAnimation.Done)
+            {
+                float percent = deathTextAnimation.Evaluate();
+                deathText.characterSpacing = Mathf.Lerp(startDeathTextSpacing, endDeathTextSpacing, percent);
+
+                yield return null;
+            }
+        }
+
+        IEnumerator Animation(SmartCurve curve)
+        {
+            deathScreen.materialForRendering.SetVector(centerID, transform.position);
+
+            curve.Start();
+            while (!curve.Done)
+            {
+                float percent = curve.Evaluate();
+
+                deathAmbience.volume = maxDeathAmbienceVolume * percent;
+                deathAmbience.pitch = maxDeathAmbiencePitch * percent;
+                deathScreen.materialForRendering.SetFloat(animationID, percent);
+
+                yield return null;
+            }
+        }
+
+        yield return Animation(deathAnimation);
+
+        yield return new WaitForSeconds(deathFillDelay);
+
+        transform.position = Checkpoint != null
+            ? Physics2D.Raycast(Checkpoint.transform.position, Vector2.down, Mathf.Infinity, groundMask).point + Vector2.up * Collider.bounds.extents.y
+            : ogSpawn;
+        CameraMovement.SnapToTarget();
+
+        yield return Animation(respawnAnimtion);
+
+        Movement.enabled = true;
+
+        death = null;
     }
 }

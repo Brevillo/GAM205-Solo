@@ -14,6 +14,6 @@ public class TextTrigger : MonoBehaviour
         if (triggered) return;
         triggered = true;
 
-        Instantiate(typewriterPrefab).Type(text);
+        Instantiate(typewriterPrefab).TypeText(text);
     }
 }

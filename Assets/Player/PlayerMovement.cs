@@ -13,7 +13,7 @@ public class PlayerMovement : Player.Component
     [SerializeField] private float airDeccel;
     [SerializeField] private float airTurnAccel;
     [SerializeField] private SoundEffect stepSound;
-    [SerializeField] private float stepSoundFreqeuncy;
+    [SerializeField] private float stepSoundDistance;
     [SerializeField] private BoxCaster2D wallRight;
     [SerializeField] private BoxCaster2D wallLeft;
     [SerializeField] private float groundedAngleRange;
@@ -34,7 +34,7 @@ public class PlayerMovement : Player.Component
     private bool onGround, onCeiling;
     private int moveDirection, wallDirection;
 
-    private float stepSoundTimer;
+    private float stepSoundTraveled;
 
     [SerializeField]
     private StateMachine stateMachine;
@@ -168,22 +168,22 @@ public class PlayerMovement : Player.Component
 
             float targetSpeed = Mathf.Abs(XVelocity) > context.runSpeed ? XVelocity : context.runSpeed;
 
-            XVelocity = Mathf.MoveTowards(XVelocity, context.moveDirection * targetSpeed, accel * Time.deltaTime);
-
             if (context.onGround && moving)
             {
-                context.stepSoundTimer += Time.deltaTime;
+                context.stepSoundTraveled += Mathf.Abs(XVelocity) * Time.deltaTime;
 
-                if (context.stepSoundTimer > context.stepSoundFreqeuncy)
+                if (context.stepSoundTraveled > context.stepSoundDistance)
                 {
-                    context.stepSoundTimer = 0;
+                    context.stepSoundTraveled = 0;
                     context.stepSound.Play(context);
                 }
             }
             else
             {
-                context.stepSoundTimer = Mathf.Infinity;
+                context.stepSoundTraveled = Mathf.Infinity;
             }
+
+            XVelocity = Mathf.MoveTowards(XVelocity, context.moveDirection * targetSpeed, accel * Time.deltaTime);
         }
 
         protected void Fall(float gravity)

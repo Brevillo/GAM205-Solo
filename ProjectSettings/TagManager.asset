@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Render Texture
   - Ground
-  - Background
+  - Decoration
   - Player
   - 
   - 
@@ -43,6 +43,12 @@ TagManager:
     locked: 0
   - name: Clouds
     uniqueID: 2874937865
+    locked: 0
+  - name: Checkpoint
+    uniqueID: 718659375
+    locked: 0
+  - name: Saw
+    uniqueID: 1179990869
     locked: 0
   - name: Default
     uniqueID: 0

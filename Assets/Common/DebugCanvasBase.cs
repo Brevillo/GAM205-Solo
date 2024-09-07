@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public abstract class DebugCanvasBase : MonoBehaviour
 {
+    private const BindingFlags methodTypes
+        = BindingFlags.DeclaredOnly
+        | BindingFlags.Public
+        | BindingFlags.NonPublic
+        | BindingFlags.Instance
+        | BindingFlags.Static;
+
     [SerializeField] private GameObject content;
     [SerializeField] private Transform buttonParent;
     [SerializeField] private Button buttonPrefab;
@@ -12,14 +19,7 @@ public abstract class DebugCanvasBase : MonoBehaviour
 
     private void Start()
     {
-        var methods = GetType()
-            .GetMethods(BindingFlags.DeclaredOnly |
-                        BindingFlags.Public |
-                        BindingFlags.NonPublic |
-                        BindingFlags.Instance |
-                        BindingFlags.Static);
-
-        foreach (var method in methods)
+        foreach (var method in GetType().GetMethods(methodTypes))
         {
             var button = Instantiate(buttonPrefab, buttonParent);
             button.onClick.AddListener(() => method.Invoke(this, null));

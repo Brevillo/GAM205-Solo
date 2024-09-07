@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1179990869
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 863291852749666265, guid: eaf3a115b07534542be5d7446d315353, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5583223820776682752}
   - component: {fileID: 2452879994957259210}
+  - component: {fileID: 6206754853054118611}
   - component: {fileID: 1819200208157602401}
   m_Layer: 0
   m_Name: Sawblade
@@ -132,6 +133,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 5279267221843825954}
   spinSpeed: -2800
+--- !u!114 &6206754853054118611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025653746647796469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ca81d0e8d1a470b9cc4a0ba49d74d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &1819200208157602401
 CircleCollider2D:
   m_ObjectHideFlags: 0

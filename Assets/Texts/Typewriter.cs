@@ -10,38 +10,68 @@ public class Typewriter : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip typeSound;
     [SerializeField] private float charDelay;
+    [SerializeField] private float lineDelay;
+    [SerializeField] private float punctuationDelay;
+    [SerializeField] private bool playOnStart;
+    [SerializeField] private float delay;
+
+    private static readonly List<char> punctuation = new() { '!', '.', ',', ':', ';', '?', };
 
     private bool done;
     public bool Done => done;
     public event Action Completed;
 
-    public void Type(string text)
+    private void Start()
     {
-        StartCoroutine(Coroutine(text));
+        if (playOnStart)
+        {
+            Type();
+        }
     }
 
-    private IEnumerator Coroutine(string text)
+    public void TypeText(string text)
     {
-        done = false;
-
-        int length = text.Length;
-
-        textMesh.maxVisibleCharacters = length;
         textMesh.text = text;
+        Type();
+    }
 
-        for (int i = 0; i < length; i++)
+    public void Type()
+    {
+        StartCoroutine(Coroutine());
+        IEnumerator Coroutine()
         {
-            textMesh.maxVisibleCharacters = i + 1;
+            done = false;
 
-            if (text[i] != ' ')
+            var tags = new System.Text.RegularExpressions.Regex(@"<[^>]*>");
+
+            string text = tags.Replace(textMesh.text, string.Empty);
+            int length = text.Length;
+
+            textMesh.maxVisibleCharacters = 0;
+
+            yield return new WaitForSeconds(delay);
+
+            for (int i = 0; i < length; i++)
             {
-                audioSource.PlayOneShot(typeSound);
+                textMesh.maxVisibleCharacters = i + 1;
+
+                var c = text[i];
+
+                if (c != ' ')
+                {
+                    audioSource.PlayOneShot(typeSound);
+                }
+
+                float delay
+                    = c == '\n' ? lineDelay
+                    : punctuation.Contains(c) ? punctuationDelay
+                    : charDelay;
+
+                yield return new WaitForSeconds(delay);
             }
 
-            yield return new WaitForSeconds(charDelay);
+            done = true;
+            Completed?.Invoke();
         }
-
-        done = true;
-        Completed?.Invoke();
     }
 }

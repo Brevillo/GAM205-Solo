@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86d5717c0560e4bcba0664447d001109, type: 3}
-  m_Name: Player Step
+  m_Name: Player Hurt
   m_EditorClassIdentifier: 
   <Clips>k__BackingField:
-  - {fileID: 8300000, guid: f3fbf10f76e154f218a286b293c99bf2, type: 3}
-  - {fileID: 8300000, guid: 7ce85632ed8f34be1955a803a6964a09, type: 3}
-  - {fileID: 8300000, guid: 4dbcfb473c6f24bc9b1640ebaa963762, type: 3}
+  - {fileID: 8300000, guid: 6e0a97fb1e62d41cc967f85f437a1fb7, type: 3}
   <Group>k__BackingField: {fileID: 0}
-  <Volume>k__BackingField: 0.35
-  <MinPitch>k__BackingField: 1.1
-  <MaxPitch>k__BackingField: 1.2
+  <Volume>k__BackingField: 1
+  <MinPitch>k__BackingField: 1
+  <MaxPitch>k__BackingField: 1
   <Sequential>k__BackingField: 0
   <AvoidOverlap>k__BackingField: 0
   <Loop>k__BackingField: 0
