@@ -5,6 +5,8 @@ using OliverBeebe.UnityUtilities.Runtime;
 using UnityEngine.UI;
 using TMPro;
 
+// to get shaders to work with UI masks : https://www.youtube.com/watch?v=RxW7_qgkXPo
+
 public class PlayerHealth : Player.Component
 {
     [SerializeField] private LayerMask groundMask;
