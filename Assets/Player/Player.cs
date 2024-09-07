@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] private new Collider2D collider;
+    [SerializeField] private PauseMenu pauseMenu;
 
     private Checkpoint checkpoint;
 
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
         protected PlayerMovement Movement => player.movement;
         protected CameraMovement CameraMovement => player.cameraMovement;
         protected Collider2D Collider => player.collider;
+        protected PauseMenu PauseMenu => player.pauseMenu;
 
         protected Checkpoint Checkpoint => player.checkpoint;
     }

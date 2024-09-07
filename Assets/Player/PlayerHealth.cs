@@ -28,6 +28,8 @@ public class PlayerHealth : Player.Component
     [SerializeField] private SmartCurve deathBodyExpansion;
     [SerializeField] private Transform visuals;
     [SerializeField] private SoundEffect playerHurt;
+    [SerializeField] private SmartCurve deathFlash;
+    [SerializeField] private CanvasGroup deathFlashGroup;
 
     private static readonly int
         animationID = Shader.PropertyToID("_Animation"),
@@ -57,6 +59,17 @@ public class PlayerHealth : Player.Component
 
         Movement.enabled = false;
         Rigidbody.velocity = Vector2.zero;
+
+        StartCoroutine(DeathFlash());
+        IEnumerator DeathFlash()
+        {
+            deathFlash.Start();
+            while (!deathFlash.Done)
+            {
+                deathFlashGroup.alpha = deathFlash.Evaluate();
+                yield return null;
+            }
+        }
 
         StartCoroutine(BodyShake());
         IEnumerator BodyShake()
@@ -122,6 +135,7 @@ public class PlayerHealth : Player.Component
         yield return Animation(respawnAnimtion);
 
         Movement.enabled = true;
+        Movement.ResetMovement();
 
         death = null;
     }

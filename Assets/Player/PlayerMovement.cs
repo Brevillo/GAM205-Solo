@@ -29,6 +29,7 @@ public class PlayerMovement : Player.Component
     [SerializeField] private BoxCaster2D ceiling;
 
     [Header("Slamming")]
+    [SerializeField] private BufferTimer slamBuffer;
     [SerializeField] private float minSlamSpeed;
 
     private bool onGround, onCeiling;
@@ -42,6 +43,15 @@ public class PlayerMovement : Player.Component
     private Falling falling;
     private Jumping jumping;
     private Slamming slamming;
+
+    public void ResetMovement()
+    {
+        stateMachine.Reset();
+        Rigidbody.velocity = Vector2.zero;
+
+        jumpBuffer.Reset();
+        slamBuffer.Reset();
+    }
 
     private void Awake()
     {
@@ -60,8 +70,18 @@ public class PlayerMovement : Player.Component
         static float NormalDistance(Vector2 normal, float targetAngle)
             => Mathf.Abs(Mathf.DeltaAngle(Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg, targetAngle));
 
-        moveDirection = (Input.MoveRight.Pressed ? 1 : 0) - (Input.MoveLeft.Pressed ? 1 : 0);
-        jumpBuffer.Buffer(Input.Jump.Down);
+        if (!PauseMenu.Paused)
+        {
+            moveDirection = (Input.MoveRight.Pressed ? 1 : 0) - (Input.MoveLeft.Pressed ? 1 : 0);
+            jumpBuffer.Buffer(Input.Jump.Down);
+            slamBuffer.Buffer(Input.Slam.Down);
+        }
+        else
+        {
+            moveDirection = 0;
+            jumpBuffer.Reset();
+            slamBuffer.Reset();
+        }
 
         stateMachine.Update(Time.deltaTime);
     }
@@ -83,7 +103,7 @@ public class PlayerMovement : Player.Component
             toCoyoteJumping = () => jumpBuffer && stateMachine.previousState == grounded && stateMachine.stateDuration < coyoteTime,
             endJumping = () => Rigidbody.velocity.y <= 0 || !Input.Jump.Pressed || onCeiling,
 
-            toSlamming = () => Input.Slam.Down;
+            toSlamming = () => slamBuffer;
 
         stateMachine = new(grounded, new()
         {

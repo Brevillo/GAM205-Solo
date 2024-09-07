@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Transform target;
@@ -20,13 +21,23 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        transform.parent = null;
+        if (Application.IsPlaying(this))
+        {
+            transform.parent = null;
+        }
     }
 
     private void LateUpdate()
     {
-        UpdatePosition();
-        CalculatePosition();
+        if (Application.IsPlaying(this))
+        {
+            UpdatePosition();
+            CalculatePosition();
+        }
+        else
+        {
+            SnapToTarget();
+        }
     }
 
     private void UpdatePosition()

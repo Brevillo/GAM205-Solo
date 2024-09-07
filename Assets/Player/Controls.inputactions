@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "d58d6e68-88c1-4758-972c-42ff9525276c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Debug Canvas",
                     "type": "Button",
                     "id": "737dcaf2-84a6-46cc-846d-9bcc3bd89ab5",
@@ -85,8 +94,30 @@
                 },
                 {
                     "name": "",
+                    "id": "9792802f-8ea7-4320-89f6-2fa618ed3fcc",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "da002764-eefe-4d70-adbe-120750dd458e",
                     "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "134d0550-75f1-4c5f-9e3a-63a4c4c6b12c",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -118,12 +149,34 @@
                 },
                 {
                     "name": "",
+                    "id": "6c8031e7-c523-48b1-94ec-643a088ddb8b",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "02376d8c-576d-43c0-b3c8-2b5ed8299e79",
                     "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Debug Canvas",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e817f5da-4144-4909-a87d-4f7c1c87b9e4",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

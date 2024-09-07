@@ -24,5 +24,7 @@ MonoBehaviour:
     actionReference: {fileID: -7991745985793627376, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
   Attack:
     actionReference: {fileID: 3097886460329038555, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
+  Pause:
+    actionReference: {fileID: 1302269445131701706, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}
   DebugCanvas:
     actionReference: {fileID: 8710974776781509559, guid: a593c1e3ab70f42b2ab3b30b08922314, type: 3}

@@ -11,5 +11,6 @@ public class GameplayInput : InputService
     public InputAction Jump;
     public InputAction Slam;
     public InputAction Attack;
+    public InputAction Pause;
     public InputAction DebugCanvas;
 }

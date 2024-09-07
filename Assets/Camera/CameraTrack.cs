@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[ExecuteAlways]
 public class CameraTrack : MonoBehaviour
 {
     [SerializeField] private bool alwaysDrawGizmos;

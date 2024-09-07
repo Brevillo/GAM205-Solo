@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Seagram tfb
+  m_Name: Seagram tfb 32
   m_EditorClassIdentifier: 
   hashCode: 972089918
   material: {fileID: 3089477336065943580}

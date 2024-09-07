@@ -17,9 +17,23 @@ public class Typewriter : MonoBehaviour
 
     private static readonly List<char> punctuation = new() { '!', '.', ',', ':', ';', '?', };
 
+    private Coroutine type;
     private bool done;
+
     public bool Done => done;
     public event Action Completed;
+
+    public void Finish()
+    {
+        if (type == null || done) return;
+
+        StopCoroutine(type);
+
+        textMesh.maxVisibleCharacters = int.MaxValue;
+
+        done = true;
+        Completed?.Invoke();
+    }
 
     private void Start()
     {
@@ -37,7 +51,7 @@ public class Typewriter : MonoBehaviour
 
     public void Type()
     {
-        StartCoroutine(Coroutine());
+        type = StartCoroutine(Coroutine());
         IEnumerator Coroutine()
         {
             done = false;
@@ -71,6 +85,7 @@ public class Typewriter : MonoBehaviour
             }
 
             done = true;
+            type = null;
             Completed?.Invoke();
         }
     }

@@ -15,9 +15,9 @@ public class Perspective2DCamera : MonoBehaviour
         float fov = camera.fieldOfView;
         float distance = height / 2f * Mathf.Tan((90f - fov / 2) * Mathf.Deg2Rad);
 
-        Vector3 position = transform.position;
+        Vector3 position = transform.localPosition;
         position.z = -distance;
-        transform.position = position;
+        transform.localPosition = position;
     }
 
     private void OnDrawGizmos()

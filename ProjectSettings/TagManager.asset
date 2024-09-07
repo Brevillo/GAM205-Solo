@@ -44,6 +44,9 @@ TagManager:
   - name: Clouds
     uniqueID: 2874937865
     locked: 0
+  - name: Cathedral
+    uniqueID: 889999867
+    locked: 0
   - name: Checkpoint
     uniqueID: 718659375
     locked: 0
@@ -56,6 +59,6 @@ TagManager:
   - name: Wind
     uniqueID: 1046087683
     locked: 0
-  - name: Death Screen
+  - name: UI
     uniqueID: 1564346363
     locked: 0
