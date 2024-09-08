@@ -10,6 +10,8 @@ public class IntroManager : MonoBehaviour
     [SerializeField] private Renderer wind;
     [SerializeField] private AudioSource windAudio;
     [SerializeField] private float maxWindVolume;
+    [SerializeField] private AudioSource bellsAudio;
+    [SerializeField] private float maxBellsVolume;
     [SerializeField] private SmartCurve windFadeIn;
     [SerializeField] private SmartCurve windFadeOut;
     [SerializeField] private SmartCurve fastWindFadeIn;
@@ -71,6 +73,7 @@ public class IntroManager : MonoBehaviour
             {
                 float percent = fadeout.Evaluate();
                 windAudio.volume = percent * maxWindVolume;
+                bellsAudio.volume = percent * maxBellsVolume;
                 wind.material.SetFloat(windColorEdge, percent);
 
                 yield return null;

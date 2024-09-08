@@ -17,6 +17,7 @@ public class PlayerMovement : Player.Component
     [SerializeField] private BoxCaster2D wallRight;
     [SerializeField] private BoxCaster2D wallLeft;
     [SerializeField] private float groundedAngleRange;
+    [SerializeField] private float groundGravity;
 
     [Header("Jumping")]
     [SerializeField] private float jumpHeight;
@@ -34,6 +35,8 @@ public class PlayerMovement : Player.Component
 
     private bool onGround, onCeiling;
     private int moveDirection, wallDirection;
+    private Vector2 groundNormal;
+    private Quaternion toGroundRotation, fromGroundRotation;
 
     private float stepSoundTraveled;
 
@@ -61,6 +64,14 @@ public class PlayerMovement : Player.Component
     private void Update()
     {
         onGround = ground.Touching && NormalDistance(ground.Normal, 90) < groundedAngleRange;
+
+        if (onGround)
+        {
+            groundNormal = ground.Normal;
+            toGroundRotation = Quaternion.FromToRotation(groundNormal, Vector2.up);
+            fromGroundRotation = Quaternion.Inverse(toGroundRotation);
+        }
+
         onCeiling = ceiling.Touching && NormalDistance(ceiling.Normal, -90) < groundedAngleRange;
 
         if (ground.Touching) Debug.DrawRay(ground.Collisions[0].point, ground.Normal * 2, Color.yellow);
@@ -155,7 +166,7 @@ public class PlayerMovement : Player.Component
             set => context.Rigidbody.velocity = value;
         }
 
-        protected float YVelocity
+        protected float VelocityY
         {
             get => Velocity.y;
             set
@@ -166,7 +177,7 @@ public class PlayerMovement : Player.Component
             }
         }
 
-        protected float XVelocity
+        protected float VelocityX
         {
             get => Velocity.x;
             set
@@ -177,20 +188,52 @@ public class PlayerMovement : Player.Component
             }
         }
 
-        protected void Run()
+        protected Vector2 SlopeVelocity
         {
-            bool moving = context.moveDirection != 0 && context.moveDirection != context.wallDirection;
-            bool turning = context.moveDirection != Mathf.Sign(XVelocity);
+            get => context.toGroundRotation * Velocity;
+            set => Velocity = context.fromGroundRotation * value;
+        }
 
-            float accel = context.onGround
+        protected float SlopeVelocityX
+        {
+            get => SlopeVelocity.x;
+            set
+            {
+                Vector2 slopeVelocity = SlopeVelocity;
+                slopeVelocity.x = value;
+                SlopeVelocity = slopeVelocity;
+            }
+        }
+
+        protected float SlopeVelocityY
+        {
+            get => SlopeVelocity.y;
+            set
+            {
+                Vector2 slopeVelocity = SlopeVelocity;
+                slopeVelocity.y = value;
+                SlopeVelocity = slopeVelocity;
+            }
+        }
+
+        protected void Run(bool onGround)
+        {
+            float velocity = onGround
+                ? SlopeVelocityX
+                : VelocityX;
+
+            bool moving = context.moveDirection != 0 && context.moveDirection != context.wallDirection;
+            bool turning = context.moveDirection != Mathf.Sign(velocity);
+
+            float accel = onGround
                 ? moving ? turning ? context.groundTurnAccel : context.groundAccel : context.groundDeccel
                 : moving ? turning ? context.airTurnAccel    : context.airAccel    : context.airDeccel;
 
-            float targetSpeed = Mathf.Abs(XVelocity) > context.runSpeed ? XVelocity : context.runSpeed;
+            float targetSpeed = Mathf.Abs(velocity) > context.runSpeed ? velocity : context.runSpeed;
 
-            if (context.onGround && moving)
+            if (onGround && moving)
             {
-                context.stepSoundTraveled += Mathf.Abs(XVelocity) * Time.deltaTime;
+                context.stepSoundTraveled += Mathf.Abs(velocity) * Time.deltaTime;
 
                 if (context.stepSoundTraveled > context.stepSoundDistance)
                 {
@@ -203,12 +246,21 @@ public class PlayerMovement : Player.Component
                 context.stepSoundTraveled = Mathf.Infinity;
             }
 
-            XVelocity = Mathf.MoveTowards(XVelocity, context.moveDirection * targetSpeed, accel * Time.deltaTime);
+            velocity = Mathf.MoveTowards(velocity, context.moveDirection * targetSpeed, accel * Time.deltaTime);
+
+            if (onGround)
+            {
+                SlopeVelocityX = velocity;
+            }
+            else
+            {
+                VelocityX = velocity;
+            }
         }
 
         protected void Fall(float gravity)
         {
-            YVelocity = Mathf.MoveTowards(YVelocity, -context.maxFallSpeed, gravity * Time.deltaTime);
+            VelocityY = Mathf.MoveTowards(VelocityY, -context.maxFallSpeed, gravity * Time.deltaTime);
         }
     }
 
@@ -218,7 +270,9 @@ public class PlayerMovement : Player.Component
 
         public override void Update()
         {
-            Run();
+            Run(true);
+
+            SlopeVelocityY = -context.groundGravity;
 
             base.Update();
         }
@@ -230,7 +284,7 @@ public class PlayerMovement : Player.Component
 
         public override void Update()
         {
-            Run();
+            Run(false);
             Fall(context.fallGravity);
 
             base.Update();
@@ -246,12 +300,12 @@ public class PlayerMovement : Player.Component
             base.Enter();
 
             context.jumpBuffer.Reset();
-            YVelocity = Mathf.Sqrt(context.jumpHeight * context.jumpGravity * 2f);
+            VelocityY = Mathf.Sqrt(context.jumpHeight * context.jumpGravity * 2f);
         }
 
         public override void Update()
         {
-            Run();
+            Run(false);
             Fall(context.jumpGravity);
 
             base.Update();
@@ -259,7 +313,7 @@ public class PlayerMovement : Player.Component
 
         public override void Exit()
         {
-            YVelocity = 0;
+            VelocityY = 0;
 
             base.Exit();
         }
@@ -280,7 +334,7 @@ public class PlayerMovement : Player.Component
 
         public override void Update()
         {
-            Run();
+            Run(false);
 
             base.Update();
         }

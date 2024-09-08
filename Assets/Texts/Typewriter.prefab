@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4126552180682589165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +102,10 @@ MonoBehaviour:
   audioSource: {fileID: 3233365493056426456}
   typeSound: {fileID: 8300000, guid: de2468bc8eb9f499b9c1c5779415931a, type: 3}
   charDelay: 0.05
+  lineDelay: 0
+  punctuationDelay: 0
+  playOnStart: 0
+  delay: 0
 --- !u!82 &3233365493056426456
 AudioSource:
   m_ObjectHideFlags: 0
@@ -114,7 +118,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
