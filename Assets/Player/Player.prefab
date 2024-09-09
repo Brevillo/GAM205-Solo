@@ -1036,10 +1036,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 189351005719758619}
   runSpeed: 60
-  groundAccel: 50
+  groundAccel: 30
   groundDeccel: 500
   groundTurnAccel: 500
-  airAccel: 50
+  airAccel: 30
   airDeccel: 300
   airTurnAccel: 400
   stepSound: {fileID: 11400000, guid: 7546dcb43ca474ef68da31acb1983eda, type: 2}
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   wallRight: {fileID: 4813358155431964647}
   wallLeft: {fileID: 470504897077269606}
   groundedAngleRange: 60
-  groundGravity: 1
+  groundGravity: 0
   jumpHeight: 8
   jumpGravity: 70
   fallGravity: 100
@@ -1057,6 +1057,7 @@ MonoBehaviour:
   maxFallSpeed: 40
   ground: {fileID: 1691112289728231785}
   ceiling: {fileID: 1557935131960137942}
+  slamMultiplier: 1.5
   slamBuffer:
     threshold: 0
   minSlamSpeed: 60

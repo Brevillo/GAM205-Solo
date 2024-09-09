@@ -30,6 +30,7 @@ public class PlayerMovement : Player.Component
     [SerializeField] private BoxCaster2D ceiling;
 
     [Header("Slamming")]
+    [SerializeField] private float slamMultiplier;
     [SerializeField] private BufferTimer slamBuffer;
     [SerializeField] private float minSlamSpeed;
 
@@ -327,7 +328,7 @@ public class PlayerMovement : Player.Component
         {
             base.Enter();
 
-            float slamSpeed = Mathf.Max(context.minSlamSpeed, Velocity.magnitude);
+            float slamSpeed = Mathf.Max(context.minSlamSpeed, Velocity.magnitude * context.slamMultiplier);
 
             Velocity = new(0, -slamSpeed);
         }
