@@ -41,12 +41,17 @@ public class PlayerMovement : Player.Component
 
     private float stepSoundTraveled;
 
+    private int facing;
+
     [SerializeField]
     private StateMachine stateMachine;
     private Grounded grounded;
     private Falling falling;
     private Jumping jumping;
     private Slamming slamming;
+
+    public int Facing => facing;
+    public float SpeedPercent => Rigidbody.velocity.x / runSpeed;
 
     public void ResetMovement()
     {
@@ -60,6 +65,7 @@ public class PlayerMovement : Player.Component
     private void Awake()
     {
         InitializeStateMachine();
+        facing = 1;
     }
 
     private void Update()
@@ -87,6 +93,11 @@ public class PlayerMovement : Player.Component
             moveDirection = (Input.MoveRight.Pressed ? 1 : 0) - (Input.MoveLeft.Pressed ? 1 : 0);
             jumpBuffer.Buffer(Input.Jump.Down);
             slamBuffer.Buffer(Input.Slam.Down);
+
+            if (moveDirection != 0)
+            {
+                facing = moveDirection;
+            }
         }
         else
         {
