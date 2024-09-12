@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf3bafd79a6544feca1751370b3151d7, type: 3}
+  m_Name: Work Timer
+  m_EditorClassIdentifier: 
+  activeSegment:
+    name: camera movement
+    description: 
+    start: 133705498358385280
+    end: 133705498382629440
+    duration: 24244160
+    segmentID: fc90e4c7-676b-4904-88e0-2dda4ef71634
+    copyData: 0
+    copied: 0
+    expanded: 0
+  savedSegments:
+  - name: Player Movement
+    description: done!
+    start: 133705497909485310
+    end: 133705498210374090
+    duration: 300888780
+    segmentID: b78b5784-c4be-4ef4-a1b4-a8e95d6e7b93
+    copyData: 0
+    copied: 0
+    expanded: 1
+  - name: camera movement
+    description: 
+    start: 133705498358385280
+    end: 133705498382629440
+    duration: 24244160
+    segmentID: fc90e4c7-676b-4904-88e0-2dda4ef71634
+    copyData: 0
+    copied: 0
+    expanded: 0
+  outputFormatting: 000000000100000004000000
+  recordingState: 0
+  outputFoldout: 1

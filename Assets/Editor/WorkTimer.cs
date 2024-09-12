@@ -82,6 +82,7 @@ namespace OliverBeebe.UnityUtilities.Runtime
             public string segmentID;
             public bool copyData;
             public bool copied;
+            public bool expanded;
 
             public readonly DateTime StartTime => DateTime.FromFileTimeUtc(start);
             public readonly DateTime EndTime => DateTime.FromFileTimeUtc(end);
@@ -95,37 +96,47 @@ namespace OliverBeebe.UnityUtilities.Runtime
             [CustomPropertyDrawer(typeof(Segment))]
             private class SegmentPropertyDrawer : PropertyDrawer
             {
-                private const int
-                    spaces = 8,
-                    lines = 11;
-
                 public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
                 {
                     EditorGUI.BeginChangeCheck();
 
                     position.height = EditorGUIUtility.singleLineHeight;
 
-                    EditorGUI.PropertyField(position, property.FindPropertyRelative(nameof(name)));
+                    var expandedProp = property.FindPropertyRelative(nameof(expanded));
+                    expandedProp.boolValue = EditorGUI.Foldout(position, expandedProp.boolValue, "", true);
 
-                    IncrementPosition(height: 6);
-                    EditorGUI.PropertyField(position, property.FindPropertyRelative(nameof(description)));
+                    var nameProp = property.FindPropertyRelative(nameof(name));
+                    if (expandedProp.boolValue)
+                    {
+                        EditorGUI.PropertyField(position, nameProp);
+                    }
+                    else
+                    {
+                        EditorGUI.LabelField(position, nameProp.stringValue);
+                    }
 
-                    IncrementPosition(spacing: 6);
+                    if (expandedProp.boolValue)
+                    {
+                        IncrementPosition(height: 6);
+                        EditorGUI.PropertyField(position, property.FindPropertyRelative(nameof(description)));
 
-                    var durationSpan = TimeSpan.FromTicks(property.FindPropertyRelative(nameof(duration)).longValue);
-                    EditorGUI.LabelField(position, $"Total   {durationSpan}");
+                        IncrementPosition(spacing: 6);
 
-                    IncrementPosition();
-                    TimeLabel(nameof(start), "Start   ");
+                        var durationSpan = TimeSpan.FromTicks(property.FindPropertyRelative(nameof(duration)).longValue);
+                        EditorGUI.LabelField(position, $"Total   {durationSpan}");
 
-                    IncrementPosition();
-                    TimeLabel(nameof(end), "End     ");
+                        IncrementPosition();
+                        TimeLabel(nameof(start), "Start   ");
 
-                    IncrementPosition();
-                    string copyButtonLabel = property.FindPropertyRelative(nameof(copied)).boolValue
-                        ? "Data Copied to Clipboard! :)"
-                        : "Copy Data to Clipboard";
-                    property.FindPropertyRelative(nameof(copyData)).boolValue = GUI.Button(position, copyButtonLabel);
+                        IncrementPosition();
+                        TimeLabel(nameof(end), "End     ");
+
+                        IncrementPosition();
+                        string copyButtonLabel = property.FindPropertyRelative(nameof(copied)).boolValue
+                            ? "Data Copied to Clipboard! :)"
+                            : "Copy Data to Clipboard";
+                        property.FindPropertyRelative(nameof(copyData)).boolValue = GUI.Button(position, copyButtonLabel);
+                    }
 
                     EditorGUI.EndChangeCheck();
 
@@ -145,7 +156,13 @@ namespace OliverBeebe.UnityUtilities.Runtime
                 }
 
                 public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-                    => lines * EditorGUIUtility.singleLineHeight + spaces * EditorGUIUtility.standardVerticalSpacing;
+                {
+                    (int lines, int spaces) = property.FindPropertyRelative(nameof(expanded)).boolValue
+                        ? (11, 8)
+                        : (1, 0);
+
+                    return lines * EditorGUIUtility.singleLineHeight + spaces * EditorGUIUtility.standardVerticalSpacing;
+                }
             }
 
             #endif

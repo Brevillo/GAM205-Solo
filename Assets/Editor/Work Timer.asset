@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Work Timer
   m_EditorClassIdentifier: 
   activeSegment:
-    name: Adding option to copy specific segments
-    description: 
-    start: 133705125878672270
-    end: 133705132703474740
-    duration: 6824802470
-    segmentID: f8a856a8-5106-44de-9a31-690bb0828881
+    name: Credits
+    description: Adding scrolling credits that are triggered by a collider
+    start: 133705718633895080
+    end: 133705766437714600
+    duration: 47803819520
+    segmentID: 14649bf5-7533-48c0-9b84-1ed0c6c0968c
     copyData: 0
     copied: 0
+    expanded: 0
   savedSegments:
   - name: Level Design
     description: Starting level design, exploring what exactly I can do
@@ -30,6 +31,7 @@ MonoBehaviour:
     segmentID: 6d18c715-46ed-4e6b-abe1-58a5637e484b
     copyData: 0
     copied: 0
+    expanded: 0
   - name: Camera Movement
     description: Reworking the camera to follow the curve of the ground instead of
       camera track points, at least for some points.
@@ -39,6 +41,7 @@ MonoBehaviour:
     segmentID: b7993265-47b8-4b3a-b68b-1a52d6070e79
     copyData: 0
     copied: 0
+    expanded: 0
   - name: Adding option to copy specific segments
     description: 
     start: 133705125878672270
@@ -46,7 +49,17 @@ MonoBehaviour:
     duration: 6824802470
     segmentID: f8a856a8-5106-44de-9a31-690bb0828881
     copyData: 0
+    copied: 0
+    expanded: 0
+  - name: Credits
+    description: Adding scrolling credits that are triggered by a collider
+    start: 133705718633895080
+    end: 133705766437714600
+    duration: 47803819520
+    segmentID: 14649bf5-7533-48c0-9b84-1ed0c6c0968c
+    copyData: 0
     copied: 1
+    expanded: 0
   outputFormatting: 0000000001000000020000000300000004000000
   recordingState: 0
-  outputFoldout: 0
+  outputFoldout: 1
