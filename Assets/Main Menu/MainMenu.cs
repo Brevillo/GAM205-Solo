@@ -33,6 +33,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Transform splashZoomStart;
     [SerializeField] private Transform splashZoomEnd;
     [SerializeField] private GameObject splashScreen;
+    [SerializeField] private AudioSource windAudio;
+    [SerializeField] private AudioSource bellsAudio;
+    [SerializeField] private SmartCurve splashAudioFadein;
 
     private Coroutine splashRoutine;
 
@@ -53,6 +56,11 @@ public class MainMenu : MonoBehaviour
     private IEnumerator SplashScreen()
     {
         splashPlayed = true;
+
+        float windVolume = windAudio.volume;
+        float bellsVolume = bellsAudio.volume;
+        windAudio.volume = 0;
+        bellsAudio.volume = 0;
 
         splashScreen.SetActive(true);
         cameraPivot.position = splashZoomStart.position;
@@ -82,6 +90,7 @@ public class MainMenu : MonoBehaviour
 
         splashFadeout.Start();
         splashZoomout.Start();
+        splashAudioFadein.Start();
         while (!splashZoomout.Done)
         {
             float maskPercent = Mathf.Lerp(0.0001f, 1f, splashFadeout.Evaluate());
@@ -92,6 +101,10 @@ public class MainMenu : MonoBehaviour
             cameraPivot.SetPositionAndRotation(
                 Vector3.Lerp(splashZoomStart.position, splashZoomEnd.position, zoomPercent),
                 Quaternion.Slerp(Quaternion.identity, LookRotation, zoomPercent));
+
+            float audioPercent = splashAudioFadein.Evaluate();
+            windAudio.volume = windVolume * audioPercent;
+            bellsAudio.volume = bellsVolume * audioPercent;
 
             yield return null;
         }

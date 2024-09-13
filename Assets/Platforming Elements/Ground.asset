@@ -17,7 +17,7 @@ MonoBehaviour:
     m_End: 45
     m_Order: 0
     m_Sprites:
-    - {fileID: 2646987716670375133, guid: e43230640e4a14aa997348932e385a75, type: 3}
+    - {fileID: -5832483713304450096, guid: e43230640e4a14aa997348932e385a75, type: 3}
   - m_Start: 45
     m_End: 135
     m_Order: 0
@@ -27,12 +27,12 @@ MonoBehaviour:
     m_End: -45
     m_Order: 0
     m_Sprites:
-    - {fileID: 2646987716670375133, guid: e43230640e4a14aa997348932e385a75, type: 3}
+    - {fileID: -5832483713304450096, guid: e43230640e4a14aa997348932e385a75, type: 3}
   - m_Start: -225
     m_End: -135
     m_Order: 0
     m_Sprites:
-    - {fileID: -4117345942822670117, guid: e43230640e4a14aa997348932e385a75, type: 3}
+    - {fileID: -5832483713304450096, guid: e43230640e4a14aa997348932e385a75, type: 3}
   m_FillTexture: {fileID: -8328923581568760697, guid: 2d327e0c32ee1466dbbaff63e3939bdd, type: 3}
   m_CornerSprites:
   - m_CornerType: 0

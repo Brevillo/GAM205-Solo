@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OliverBeebe.UnityUtilities.Runtime;
 
 public class Credits : MonoBehaviour
 {
     [SerializeField] private float creditsDuration;
     [SerializeField] private RectTransform credits;
+    [SerializeField] private GameObject enableOnStart;
+    [SerializeField] private SmartCurve fadeout;
+    [SerializeField] private CanvasGroup fadeoutCanvas;
+    [SerializeField] private Scene mainMenu;
+    [SerializeField] private float cameraSpeed;
 
     private bool started;
     private float creditsPercent;
@@ -25,14 +31,44 @@ public class Credits : MonoBehaviour
         started = true;
         startPosition = credits.localPosition;
         endPosition = credits.anchoredPosition + Vector2.up * (credits.rect.height + ((RectTransform)credits.parent).rect.height / 2f);
+
+        enableOnStart.SetActive(true);
+
+        StartCoroutine(Sequence());
     }
 
-    private void Update()
+    private void Start()
     {
-        if (!started) return;
+        enableOnStart.SetActive(false);
+    }
 
-        creditsPercent += Time.deltaTime / creditsDuration;
+    private IEnumerator Sequence()
+    {
+        var camMovement = FindObjectOfType<CameraMovement>();
+        var camera = camMovement.transform;
+        Destroy(camMovement);
 
-        credits.localPosition = Vector2.Lerp(startPosition, endPosition, creditsPercent);
+        Vector2 cameraVelocity = Vector2.zero;
+
+        while (creditsPercent != 1)
+        {
+            creditsPercent = Mathf.MoveTowards(creditsPercent, 1, Time.deltaTime / creditsDuration);
+
+            credits.localPosition = Vector2.Lerp(startPosition, endPosition, creditsPercent);
+
+            camera.position = Vector2.SmoothDamp(camera.position, transform.position, ref cameraVelocity, cameraSpeed);
+
+            yield return null;
+        }
+
+        fadeout.Start();
+        while (!fadeout.Done)
+        {
+            fadeoutCanvas.alpha = fadeout.Evaluate();
+
+            yield return null;
+        }
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenu);
     }
 }

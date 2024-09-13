@@ -93,7 +93,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 3}
+  m_Size: {x: 5, y: 1000}
   m_EdgeRadius: 0
 --- !u!82 &3727038648028364269
 AudioSource:
@@ -4997,7 +4997,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 718659375
-  m_SortingLayer: -1
+  m_SortingLayer: -4
   m_SortingOrder: -1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5597,7 +5597,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 718659375
-  m_SortingLayer: -1
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 9022690083729111862, guid: 977a7831bbca74d83a2b0d54b05a9a55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
